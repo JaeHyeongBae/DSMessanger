@@ -1,7 +1,7 @@
 ### Requirements
 ---
 * Visual Studio 2017
-* C++/CLI Language Support
+* C++/CLI Language Support Extension
 
 ### Instructions
 ---
