@@ -308,6 +308,7 @@ namespace DSMessanger {
 #pragma endregion
 	private: System::Void label4_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
+			 //load a profile image from local file to the picturebox
 private: System::Void openProfileImage_linklabel_LinkClicked(System::Object^  sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^  e) 
 {
 	OpenFileDialog^ opener = gcnew OpenFileDialog();
@@ -320,6 +321,7 @@ private: System::Void openProfileImage_linklabel_LinkClicked(System::Object^  se
 		
 	}
 }
+		 //load a background image from local file to the picturebox
 private: System::Void openBackgroundImage_linklabel_LinkClicked(System::Object^  sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^  e) 
 {
 	OpenFileDialog^ opener = gcnew OpenFileDialog();
@@ -343,10 +345,12 @@ private: System::Void submit_button_Click(System::Object^  sender, System::Event
 		msclr::interop::marshal_as<std::string>(profileMessage_textbox->Text)
 	)) {
 		if(profileImage_picturebox->Image != nullptr) {
+			//save picturebox's loaded image to server's directory
 			profileImage_picturebox->Image->Save(IO::Directory::GetCurrentDirectory() + "\\pictures\\profile\\" + id_textbox->Text);
 			
 		}
 		if (backgroundImage_picturebox->Image != nullptr) {
+			//save picturebox's loaded image to server's directory
 			backgroundImage_picturebox->Image->Save(IO::Directory::GetCurrentDirectory() + "\\pictures\\background\\" + id_textbox->Text);
 
 		}

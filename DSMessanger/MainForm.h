@@ -68,7 +68,7 @@ namespace DSMessanger {
 
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  accountToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  helpToolStripMenuItem;
+
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::TextBox^  chat_textbox;
 
@@ -79,7 +79,7 @@ namespace DSMessanger {
 
 	private: System::Windows::Forms::ToolStripMenuItem^  signOutToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  accountSettingsToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
+
 	private: System::Windows::Forms::PictureBox^  profile_picturebox;
 	private: System::Windows::Forms::Label^  name_label;
 	private: System::Windows::Forms::Label^  id_label;
@@ -128,8 +128,6 @@ namespace DSMessanger {
 			this->deleteAccountToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->friendsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->refreshToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->chat_textbox = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -171,9 +169,9 @@ namespace DSMessanger {
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
 				this->accountToolStripMenuItem,
-					this->friendsToolStripMenuItem, this->helpToolStripMenuItem
+					this->friendsToolStripMenuItem
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
@@ -222,22 +220,9 @@ namespace DSMessanger {
 			// refreshToolStripMenuItem
 			// 
 			this->refreshToolStripMenuItem->Name = L"refreshToolStripMenuItem";
-			this->refreshToolStripMenuItem->Size = System::Drawing::Size(113, 22);
+			this->refreshToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->refreshToolStripMenuItem->Text = L"Refresh";
 			this->refreshToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::refreshToolStripMenuItem_Click);
-			// 
-			// helpToolStripMenuItem
-			// 
-			this->helpToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->aboutToolStripMenuItem });
-			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
-			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
-			this->helpToolStripMenuItem->Text = L"Help";
-			// 
-			// aboutToolStripMenuItem
-			// 
-			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
-			this->aboutToolStripMenuItem->Size = System::Drawing::Size(152, 22);
-			this->aboutToolStripMenuItem->Text = L"About";
 			// 
 			// label1
 			// 
@@ -429,6 +414,7 @@ private: System::Void refreshToolStripMenuItem_Click(System::Object^  sender, Sy
 {
 	refreshFriendList();
 }
+		 //update listbox that displays list of friends
 private: void refreshFriendList()
 {
 	friend_listbox->Items->Clear();
@@ -453,9 +439,9 @@ private: void sendMessage()
 	}
 }
 
+		 //update chat log textbox with latest friend selection & messages
 private: void updateChatLog()
 {
-	//refreshFriendList();
 	if (friend_listbox->SelectedIndex >= 0) {
 		MemberType* mem = app->memberList.RetrieveByName(msclr::interop::marshal_as<std::string>(friend_listbox->SelectedItem->ToString()));
 		if (mem == nullptr)
@@ -484,6 +470,7 @@ private: System::Void signOutToolStripMenuItem_Click(System::Object^  sender, Sy
 	app->Logout(my_mem->ID);
 	this->Close();
 }
+		 //Get Friend's Info and update displayed info
 private: System::Void friend_listbox_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) 
 {
 	if (friend_listbox->SelectedIndex >= 0) {
@@ -508,17 +495,17 @@ private: System::Void friend_listbox_SelectedIndexChanged(System::Object^  sende
 		}
 		updateChatLog();
 	}
-	//refreshFriendList();
 }
 private: System::Void backgroundWorker_updatelog_DoWork(System::Object^  sender, System::ComponentModel::DoWorkEventArgs^  e) 
 {
 }
+		 //called every 200 ms
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 	updateChatLog();
 }
 private: System::Void chat_textbox_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) 
 {
-	if (e->KeyChar.Equals((char)13))
+	if (e->KeyChar.Equals((char)13))//Hit Enter
 	{
 		sendMessage();
 		e->Handled = true;

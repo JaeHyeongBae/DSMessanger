@@ -63,7 +63,7 @@ namespace DSMessanger {
 	private: System::Windows::Forms::Button^  button_save;
 
 
-	private: System::Windows::Forms::LinkLabel^  linkLabel_delete;
+
 
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::PictureBox^  pictureBox_background;
@@ -92,7 +92,6 @@ namespace DSMessanger {
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->textBox_msg = (gcnew System::Windows::Forms::TextBox());
 			this->button_save = (gcnew System::Windows::Forms::Button());
-			this->linkLabel_delete = (gcnew System::Windows::Forms::LinkLabel());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox_background = (gcnew System::Windows::Forms::PictureBox());
 			this->button_background = (gcnew System::Windows::Forms::Button());
@@ -174,18 +173,6 @@ namespace DSMessanger {
 			this->button_save->UseVisualStyleBackColor = true;
 			this->button_save->Click += gcnew System::EventHandler(this, &SettingForm::button_save_Click);
 			// 
-			// linkLabel_delete
-			// 
-			this->linkLabel_delete->AutoSize = true;
-			this->linkLabel_delete->LinkColor = System::Drawing::Color::Red;
-			this->linkLabel_delete->Location = System::Drawing::Point(10, 274);
-			this->linkLabel_delete->Name = L"linkLabel_delete";
-			this->linkLabel_delete->Size = System::Drawing::Size(90, 12);
-			this->linkLabel_delete->TabIndex = 6;
-			this->linkLabel_delete->TabStop = true;
-			this->linkLabel_delete->Text = L"Delete Account";
-			this->linkLabel_delete->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &SettingForm::linkLabel_delete_LinkClicked);
-			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
@@ -221,7 +208,6 @@ namespace DSMessanger {
 			this->AutoScaleDimensions = System::Drawing::SizeF(7, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(500, 295);
-			this->Controls->Add(this->linkLabel_delete);
 			this->Controls->Add(this->button_save);
 			this->Controls->Add(this->textBox_msg);
 			this->Controls->Add(this->textBox_tel);
@@ -272,33 +258,23 @@ private: System::Void button_background_Click(System::Object^  sender, System::E
 }
 private: System::Void SettingForm_Load(System::Object^  sender, System::EventArgs^  e) 
 {
-	//if(IO::File::Exists(IO::Directory::GetCurrentDirectory() + "\\pictures\\profile\\" + gcnew String(my_mem->ID.c_str())))
+	//show current profile on load
 	pictureBox_profile->ImageLocation = IO::Directory::GetCurrentDirectory() + "\\pictures\\profile\\" + gcnew String(my_mem->ID.c_str());
 	pictureBox_background->ImageLocation = IO::Directory::GetCurrentDirectory() + "\\pictures\\background\\" + gcnew String(my_mem->ID.c_str());
+	textBox_tel->Text = gcnew String(my_mem->PhoneNumber.c_str());
+	textBox_msg->Text = gcnew String(my_mem->ProfileMessage.c_str());
 }
+
 private: System::Void button_save_Click(System::Object^  sender, System::EventArgs^  e) 
 {
 	my_mem->PhoneNumber = msclr::interop::marshal_as<std::string>(textBox_tel->Text);
 	my_mem->ProfileMessage = msclr::interop::marshal_as<std::string>(textBox_msg->Text);
 
+	//If an image is loaded to picturebox, copy the image to server folder as id
 	if(prof_src != "")
 		IO::File::Copy(prof_src, IO::Directory::GetCurrentDirectory() + "\\pictures\\profile\\" + gcnew String(my_mem->ID.c_str()), true);
 	if(bg_src != "")
 		IO::File::Copy(bg_src, IO::Directory::GetCurrentDirectory() + "\\pictures\\background\\" + gcnew String(my_mem->ID.c_str()), true);
-	this->Close();
-}
-private: System::Void linkLabel_delete_LinkClicked(System::Object^  sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^  e) 
-{
-	my_mem->friendList.ResetList();
-	FriendType fr;
-	FriendType me_fr;
-	me_fr.ID = my_mem->ID;
-	for (int i = 0; i < my_mem->friendList.GetLength(); i++)
-	{
-		my_mem->friendList.GetNextItem(fr);
-		fr.Pmem->friendList.Delete(me_fr);
-	}
-	app->memberList.Delete(*my_mem);
 	this->Close();
 }
 };

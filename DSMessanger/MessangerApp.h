@@ -12,6 +12,7 @@ private:
 	static bool instanceFlag;
 	static MessangerApp* instance;
 	
+//Singleton get instance method
 public: static MessangerApp* GetInstance()
 {
 	if (instance == nullptr)
@@ -80,6 +81,12 @@ public: CircularQueueType<MessageType> messageQ;
 		*/
 		bool DeleteAccount(string id);
 
+		/**
+		*	@brief	Delete a friend from user's friend list
+		*	@pre	The request friend exists in the user's friend list
+		*	@post	The friend is deleted from friend list
+		*	@return	returns true if successful
+		*/
 		bool DeleteFriend(std::string my_id, std::string friend_id);
 };
 

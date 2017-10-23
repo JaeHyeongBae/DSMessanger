@@ -146,7 +146,7 @@ namespace DSMessanger {
 		}
 #pragma endregion
 	private: System::Void signIn_button_Click(System::Object^  sender, System::EventArgs^  e) {
-		if (app->Login(msclr::interop::marshal_as<std::string>(id_textbox->Text), msclr::interop::marshal_as<std::string>(pw_textbox->Text)))
+		if (app->Login(msclr::interop::marshal_as<std::string>(id_textbox->Text), msclr::interop::marshal_as<std::string>(pw_textbox->Text)))//Request log in
 		{
 			MainForm^ mainform = gcnew MainForm(id_textbox->Text);
 			this->Visible = false;
@@ -163,9 +163,9 @@ private: System::Void newaccount_label_LinkClicked(System::Object^  sender, Syst
 
 private: System::Void pw_textbox_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) 
 {
-	if (e->KeyChar.Equals((char)13))
+	if (e->KeyChar.Equals((char)13))//Enter key is hit
 	{
-		if (app->Login(msclr::interop::marshal_as<std::string>(id_textbox->Text), msclr::interop::marshal_as<std::string>(pw_textbox->Text)))
+		if (app->Login(msclr::interop::marshal_as<std::string>(id_textbox->Text), msclr::interop::marshal_as<std::string>(pw_textbox->Text)))//Request log in
 		{
 			MainForm^ mainform = gcnew MainForm(id_textbox->Text);
 			this->Visible = false;
